@@ -5,9 +5,9 @@ import java.util.Random;
 public class Ball
 {
 
-	public int x, y, width = 25, height = 25;
+	private int x, y, width = 25, height = 25;
 
-	public int motionX, motionY;
+	private int motionX, motionY;
 
 	public Random random;
 
@@ -31,47 +31,61 @@ public class Ball
 
 		spawn();
 	}
+	
+	public int getX()
+	{
+		return x;
+		
+	}
+	
+	public int getY()
+	{
+		return y;
+		
+	}
+	
+	public int getWidth()
+	{
+		return width;
+		
+	}
+	
+	public int getHeight()
+	{
+		return height;
+		
+	}
+	
 
 	public void update(Paddle paddle1, Paddle paddle2)
 	{
 		int speed = 5;
+		
+		System.out.println("this.x: "+this.x+"; motionX: "+motionX +"\n"+
+						   "this.y: "+this.y+"; motionY: "+motionY +"\n");
 
 		this.x += motionX * speed;
 		this.y += motionY * speed;
 
-		if (this.y + height - motionY > pong.height || this.y + motionY < 0)
+		if (this.y + height - motionY > pong.getHeight() || this.y + motionY < 0)
 		{
 			if (this.motionY < 0)
 			{
 				this.y = 0;
-				this.motionY = random.nextInt(4);
-
-				if (motionY == 0)
-				{
-					motionY = 1;
-				}
+				this.motionY = 1;
 			}
 			else
 			{
-				this.motionY = -random.nextInt(4);
-				this.y = pong.height - height;
-
-				if (motionY == 0)
-				{
-					motionY = -1;
-				}
+				this.motionY = -1;
+				this.y = pong.getHeight() - height;
 			}
 		}
-
+System.out.println("ooo");
 		if (checkCollision(paddle1) == 1)
 		{
-			this.motionX = 1 + (amountOfHits / 5);
+			this.motionX = 1 ;
 			this.motionY = -2 + random.nextInt(4);
 
-			if (motionY == 0)
-			{
-				motionY = 1;
-			}
 			firstPlayerHitThread= new Thread(firstPlayerHitControl= new SoundRunnable("music/FirstPlayerHits.wav"));
 			firstPlayerHitThread.start();
 
@@ -79,13 +93,8 @@ public class Ball
 		}
 		else if (checkCollision(paddle2) == 1)
 		{
-			this.motionX = -1 - (amountOfHits / 5);
+			this.motionX = -1 ;
 			this.motionY = -2 + random.nextInt(4);
-
-			if (motionY == 0)
-			{
-				motionY = 1;
-			}
 			secoundPlayerHitThread= new Thread(secoundPlayerHitControl= new SoundRunnable("music/FirstPlayerHits.wav"));
 			secoundPlayerHitThread.start();
 
@@ -94,12 +103,12 @@ public class Ball
 
 		if (checkCollision(paddle1) == 2)
 		{
-			paddle2.score++;
+			paddle2.setScore(paddle2.getScore()+1);
 			spawn();
 		}
 		else if (checkCollision(paddle2) == 2)
 		{
-			paddle1.score++;
+			paddle1.setScore(paddle1.getScore()+1);
 			spawn();
 		}
 	}
@@ -107,8 +116,8 @@ public class Ball
 	public void spawn()
 	{
 		this.amountOfHits = 0;
-		this.x = pong.width / 2 - this.width / 2;
-		this.y = pong.height / 2 - this.height / 2;
+		this.x = pong.getWidth() / 2 - this.width / 2;
+		this.y = pong.getHeight() / 2 - this.height / 2;
 
 		this.motionY = -2 + random.nextInt(4);
 
@@ -129,16 +138,18 @@ public class Ball
 
 	public int checkCollision(Paddle paddle)
 	{
-		if (this.x < paddle.x + paddle.width && this.x + width > paddle.x && this.y < paddle.y + paddle.height && this.y + height > paddle.y)
+		if (this.x < paddle.getX() + paddle.getWidth() && this.x + width > paddle.getX() && this.y < paddle.getY() + paddle.getHeight() && this.y + height > paddle.getY())
 		{
-			return 1; //bounce
+			System.out.println("Otskok");
+			return 1; 
 		}
-		else if ((paddle.x > x && paddle.paddleNumber == 1) || (paddle.x < x - width && paddle.paddleNumber == 2))
+		else if ((paddle.getX() > x && paddle.getPaddleNumber() == 1) || (paddle.getX() < x - width && paddle.getPaddleNumber() == 2))
 		{
-			return 2; //score
+			System.out.println("Goal");
+			return 2; 
 		}
 
-		return 0; //nothing
+		return 0; 
 	}
 
 	public void render(Graphics g)

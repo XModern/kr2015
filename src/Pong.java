@@ -1,6 +1,7 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -16,26 +17,26 @@ import javax.swing.Timer;
 public class Pong implements ActionListener, KeyListener
 {
 	public static Pong pong;
-	public int width = 700;
-	public int height = 700;
-	public Renderer renderer;
-	public Paddle player1;
-	public Paddle player2;
-	public Ball ball;
-	public boolean bot = false;
-	public boolean selectingDifficulty;
-	public boolean w;
-	public boolean s;
-	public boolean up;
-	public boolean down;
-	public int gameStatus = 0;
-	public int scoreLimit = 7; 
-	public int playerWon;
-	public int botDifficulty;
-	public int botMoves;
-	public int botCooldown = 0;
-	public Random random;
-	public JFrame jframe;	
+	private int width = 700;
+	private int height = 700;
+	private Renderer renderer;
+	private Paddle player1;
+	private Paddle player2;
+	private Ball ball;
+	private boolean bot = false;
+	private boolean selectingDifficulty;
+	private boolean w;
+	private boolean s;
+	private boolean up;
+	private boolean down;
+	private int gameStatus = 0;
+	private int scoreLimit = 7; 
+	private int playerWon;
+	private int botDifficulty;
+	private int botMoves;
+	private int botCooldown = 0;
+	//public Random random;
+	private JFrame jframe;	
 	private Sound sound;	
 	private Thread soundThread;	
 	private BackgroundMusicRunnable SoundControl;
@@ -43,21 +44,40 @@ public class Pong implements ActionListener, KeyListener
 	public Pong()
 	{
 		Timer timer = new Timer(20, this);
-		random = new Random();
+		
+		//random = new Random();
 
 		jframe = new JFrame("Pong");
+		
+		System.out.println("timer.start");
+		//timer.start();
+		System.out.println("timer.stop");
 
 		renderer = new Renderer();
+		
+		//timer.start();
 
 		jframe.setSize(width + 15, height + 35);
 		jframe.setVisible(true);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.add(renderer);
 		jframe.addKeyListener(this);
-
+		
+		System.out.println("before");
 		timer.start();
+		System.out.println("after");
 		soundThread= new Thread(SoundControl= new BackgroundMusicRunnable());
 		soundThread.start();
+	}
+	
+	public int getWidth()
+	{
+		return width;
+	}
+	
+	public int getHeight()
+	{
+		return height;
 	}
 
 	public void start()
@@ -70,13 +90,13 @@ public class Pong implements ActionListener, KeyListener
 
 	public void update()
 	{
-		if (player1.score >= scoreLimit)
+		if (player1.getScore() >= scoreLimit)
 		{
 			playerWon = 1;
 			gameStatus = 3;
 		}
 
-		if (player2.score >= scoreLimit)
+		if (player2.getScore() >= scoreLimit)
 		{
 			gameStatus = 3;
 			playerWon = 2;
@@ -113,16 +133,17 @@ public class Pong implements ActionListener, KeyListener
 					botMoves = 0;
 				}
 			}
-
+			
+			System.out.println("botMoves: "+botMoves);
 			if (botMoves < 10)
 			{
-				if (player2.y + player2.height / 2 < ball.y)
+				if (player2.getY() + player2.getHeight() / 2 < ball.getY())
 				{
 					player2.move(false);
 					botMoves++;
 				}
 
-				if (player2.y + player2.height / 2 > ball.y)
+				else if (player2.getY() + player2.getHeight() / 2 > ball.getY())
 				{
 					player2.move(true);
 					botMoves++;
@@ -142,12 +163,13 @@ public class Pong implements ActionListener, KeyListener
 				}
 			}
 		}
-
+////////////////////////////////////////////////
 		ball.update(player1, player2);
 	}
 
 	public void render(Graphics2D g)
 	{
+		System.out.println("i ");
 		g.setColor(Color.GREEN);
 		g.fillRect(0, 0, width, height);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -159,8 +181,10 @@ public class Pong implements ActionListener, KeyListener
 
 			g.drawString("PING-PONG", width / 2 - 150, 50);
 
+			System.out.println(selectingDifficulty);
 			if (!selectingDifficulty)
 			{
+				System.out.println("2 ");
 				g.setFont(new Font("Arial", 1, 30));
 
 				g.drawString("Press Space to Play", width / 2 - 150, height / 2 - 25);
@@ -172,7 +196,7 @@ public class Pong implements ActionListener, KeyListener
 		if (selectingDifficulty)
 		{
 			String string;
-			//String string = botDifficulty == 0 ? "Easy" : (botDifficulty == 1 ? "Medium" : "Hard");
+			System.out.println("botDifficulty: "+botDifficulty);
 			if(botDifficulty == 0)
 			{
 				string= "Easy";
@@ -199,15 +223,15 @@ public class Pong implements ActionListener, KeyListener
 			g.drawString("PAUSED", width / 2 - 103, height / 2 - 25);
 		}
 
-		if (gameStatus == 1 || gameStatus == 2)
+		if (gameStatus == 2)
 		{
 			g.setColor(Color.WHITE);
 
-			g.setStroke(new BasicStroke(5f));
+			g.setStroke(new BasicStroke());
 
 			g.drawLine(width / 2, 0, width / 2, height);
 
-			g.setStroke(new BasicStroke(2f));
+			g.setStroke(new BasicStroke());
 
 			g.drawOval(width / 2 - 150, height / 2 - 150, 300, 300);
 
@@ -215,8 +239,8 @@ public class Pong implements ActionListener, KeyListener
 			
 			g.setColor(Color.BLACK);
 
-			g.drawString(String.valueOf(player1.score), width / 2 - 90, 50);
-			g.drawString(String.valueOf(player2.score), width / 2 + 65, 50);
+			g.drawString(String.valueOf(player1.getScore()), width / 2 - 90, 50);
+			g.drawString(String.valueOf(player2.getScore()), width / 2 + 65, 50);
 
 			player1.render(g,Color.RED);
 			player2.render(g,Color.BLUE);
@@ -253,12 +277,17 @@ public class Pong implements ActionListener, KeyListener
 
 	public void actionPerformed(ActionEvent e)
 	{
+		System.out.println("in");
 		if (gameStatus == 2)
 		{
 			update();
 		}
 
 		renderer.repaint();
+		
+		//Graphics g = null;
+		//pong.render((Graphics2D) g);
+
 	}
 
 	public static void main(String[] args)
@@ -343,6 +372,7 @@ public class Pong implements ActionListener, KeyListener
 				else
 				{
 					selectingDifficulty = false;
+					//bot =true;
 				}
 				
 				
@@ -350,7 +380,7 @@ public class Pong implements ActionListener, KeyListener
 				//sound = new Sound(file);
 				//sound.playInf();
 				
-				
+			//sdsg	
 				start();
 				
 				

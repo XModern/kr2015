@@ -4,11 +4,11 @@ import java.awt.Graphics;
 public class Paddle
 {
 
-	public int paddleNumber;
+	private int paddleNumber;
 
-	public int x, y, width = /*50*/30, height = 200/*250*/;
+	private int x, y, width = 30, height = 200;
 
-	public int score;
+	private int score;
 
 	public Paddle(Pong pong, int paddleNumber)
 	{
@@ -21,10 +21,48 @@ public class Paddle
 
 		if (paddleNumber == 2)
 		{
-			this.x = pong.width - width;
+			this.x = pong.getWidth() - width;
 		}
 
-		this.y = pong.height / 2 - this.height / 2;
+		this.y = pong.getHeight() / 2 - this.height / 2;
+	}
+	
+	public void setScore(int s)
+	{
+		score=s;
+	}
+	
+	public int getScore()
+	{
+		return score;
+	}
+	
+	public int getPaddleNumber()
+	{
+		return paddleNumber;
+	}
+	public int getX()
+	{
+		return x;
+		
+	}
+	
+	public int getY()
+	{
+		return y;
+		
+	}
+	
+	public int getWidth()
+	{
+		return width;
+		
+	}
+	
+	public int getHeight()
+	{
+		return height;
+		
 	}
 
 	public void render(Graphics g,Color color)
@@ -50,13 +88,13 @@ public class Paddle
 		}
 		else
 		{
-			if (y + height + speed < Pong.pong.height)
+			if (y + height + speed < Pong.pong.getHeight())
 			{
 				y += speed;
 			}
 			else
 			{
-				y = Pong.pong.height - height;
+				y = Pong.pong.getHeight() - height;
 			}
 		}
 	}

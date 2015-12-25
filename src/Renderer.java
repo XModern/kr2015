@@ -8,10 +8,15 @@ public class Renderer extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
-
-	protected void paintComponent(Graphics g)
+	
+	void Renderer()
 	{
-		super.paintComponent(g);
+		
+	}
+
+	public void paintComponent(Graphics g)
+	{		
+		System.out.println("opopop");
 
 		Pong.pong.render((Graphics2D) g);
 	}
