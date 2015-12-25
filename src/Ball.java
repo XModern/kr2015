@@ -12,6 +12,8 @@ public class Ball
 	public Random random;
 
 	private Pong pong;
+	
+	private Color color=Color.BLACK;
 
 	public int amountOfHits;
 	
@@ -23,6 +25,10 @@ public class Ball
 	private Thread secoundPlayerHitThread;	
 	private SoundRunnable secoundPlayerHitControl;
 
+	public Ball()
+	{
+		
+	}
 	public Ball(Pong pong)
 	{
 		this.pong = pong;
@@ -80,7 +86,7 @@ public class Ball
 				this.y = pong.getHeight() - height;
 			}
 		}
-System.out.println("ooo");
+//System.out.println("ooo");
 		if (checkCollision(paddle1) == 1)
 		{
 			this.motionX = 1 ;
@@ -152,9 +158,41 @@ System.out.println("ooo");
 		return 0; 
 	}
 
-	public void render(Graphics g)
+	public void render(Graphics g,int val)
 	{
-		g.setColor(Color.WHITE);
+		if (val==1)
+		{
+			color=Color.BLACK;
+		}
+		else if (val==2)
+		{
+			color=Color.BLUE;
+		}
+		else if (val==3)
+		{
+			color=Color.CYAN;
+		}
+		else if (val==4)
+		{
+			color=Color.MAGENTA;
+		}
+		else if (val==5)
+		{
+			color=Color.ORANGE;
+		}
+		else if (val==6)
+		{
+			color=Color.PINK;
+		}
+		else if (val==7)
+		{
+			color=Color.RED;
+		}
+		else if (val==8)
+		{
+			color=Color.YELLOW;
+		}
+		g.setColor(color);
 		g.fillOval(x, y, width, height);
 	}
 

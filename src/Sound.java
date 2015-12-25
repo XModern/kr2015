@@ -8,6 +8,7 @@ public class Sound
     private Clip clip = null;
     private FloatControl volumeC = null;
     private boolean playing = false;
+    private Sound snd;
 
     public Sound(File f) 
     {
