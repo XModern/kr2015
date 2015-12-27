@@ -7,6 +7,7 @@ public class Sound
     private boolean released = false;
     private Clip clip = null;
     private FloatControl volumeC = null;
+    private float vol;
     private boolean playing = false;
     private Sound snd;
 
@@ -18,7 +19,14 @@ public class Sound
             clip = AudioSystem.getClip();
             clip.open(stream);
             clip.addLineListener(new Listener());
-            volumeC = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+            //if (volumeC==null)
+            //{
+            	volumeC = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+            //}
+            //else 
+            //{
+            	volumeC.setValue(vol);
+            //}
             released = true;
         } 
         catch(IOException e) 
@@ -102,6 +110,7 @@ public class Sound
         float min = volumeC.getMinimum();
         float max = volumeC.getMaximum();
         volumeC.setValue((max-min)*x+min);
+        vol=volumeC.getValue();
     }
 
     //Возвращает текущую громкость (число от 0 до 1)
