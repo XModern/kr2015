@@ -35,7 +35,7 @@ public class Pong implements ActionListener, KeyListener
 	private int botDifficulty;
 	private int botMoves;
 	private int botCooldown = 0;
-	private int Volume= 1;
+	private int Volume= 0;
 	//public Random random;
 	private JFrame jframe;	
 	private Sound sound;	
