@@ -21,7 +21,7 @@ public class Sound
             clip.addLineListener(new Listener());
             //if (volumeC==null)
             //{
-            	System.out.println("*******************************************vol: "+vol);
+            	System.out.println("vol: "+vol);
             	volumeC = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
             	volumeC.setValue(vol);
             //}

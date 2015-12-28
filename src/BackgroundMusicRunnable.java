@@ -5,11 +5,6 @@ public class BackgroundMusicRunnable implements Runnable
 	private Sound sound,music;
 	private float vol;
 	
-	public void stop()
-	{
-		soundActivation=false;
-		//sound.stop();
-	}
 	
 	public void setVolume(float vol)
 	{

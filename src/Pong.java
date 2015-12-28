@@ -263,7 +263,7 @@ public class Pong implements ActionListener, KeyListener
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("Arial", 1, 50));
 
-			g.drawString("PONG", width / 2 - 75, 50);
+			g.drawString("PING-PONG", width / 2 - 75, 50);
 
 			if (bot && playerWon == 2)
 			{
@@ -308,7 +308,7 @@ public class Pong implements ActionListener, KeyListener
 				}
 				SoundControl.setVolume((float)Volume);
 				
-				g.drawString("Choose Ball colour", width / 2 - 160, height / 2 +75);
+				g.drawString("Choose Ball color", width / 2 - 160, height / 2 +75);
 				g.drawString("the up arrow or the down arrow", width / 2 - 235, height / 2 + +125);
 				if (color==1)
 				{

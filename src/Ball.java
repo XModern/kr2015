@@ -17,11 +17,11 @@ public class Ball
 
 	public int amountOfHits;
 	
-	private Sound firstPlayerHit;	
+	//private Sound firstPlayerHit;	
 	private Thread firstPlayerHitThread;	
 	private SoundRunnable firstPlayerHitControl;
 	
-	private Sound secoundPlayerHit;	
+	//private Sound secoundPlayerHit;	
 	private Thread secoundPlayerHitThread;	
 	private SoundRunnable secoundPlayerHitControl;
 
